@@ -33,6 +33,7 @@ def get_model_path(
     reward_mode: str,
     subfolder: str = None,
     prefer_best: bool = True,
+    model_folder_path: str = "models",
     model_seed: int = 42,
 ) -> str:
     """
@@ -51,7 +52,7 @@ def get_model_path(
     Raises:
         FileNotFoundError: If no suitable model file is found in the given directory.
     """
-    base_path = os.path.join("models", reward_mode)
+    base_path = os.path.join(model_folder_path, reward_mode)
     if subfolder:
         base_path = os.path.join(base_path, subfolder)
     # Select model seed
@@ -68,6 +69,9 @@ def get_model_path(
         logger.error(
             f"No model found for {algorithm} (seed {model_seed}) in {base_path}"
         )
+        logger.error(
+            f"standard_path: {standard_path}"
+        )
         raise FileNotFoundError(
             f"[ERROR] No model found for {algorithm} (seed {model_seed}) in {base_path}"
         )
@@ -79,6 +83,7 @@ def evaluate_model(
     env_seed=58,
     pred_horizon=12,
     reward_mode="temperature",
+    model_folder_path="./models",
     energy_price_path=None,
     outdoor_temperature_path=None,
     obs_variant=None,
@@ -124,7 +129,7 @@ def evaluate_model(
     )
 
     # Load pre-trained models or initialize rule-based controllers
-    model_path = f"./models/{reward_mode}/{algorithm}_model_seed{model_seed}"
+    model_path = f"{model_folder_path}/{reward_mode}/{algorithm}_model_seed{model_seed}"
     logger.debug(f"model_path: {model_path}")
     if algorithm in ["ppo", "sac", "ddpg", "td3", "a2c"]:
         model_path = get_model_path(
@@ -132,6 +137,7 @@ def evaluate_model(
             reward_mode=reward_mode,
             subfolder=obs_variant,
             prefer_best=prefer_best,
+            model_folder_path=model_folder_path,
             model_seed=model_seed,
         )
         if algorithm == "ppo":
@@ -361,6 +367,12 @@ def main():
         help="Select reward mode: 'temperature' (single-objective), or 'combined' (multi-objective).",
     )
     parser.add_argument(
+    "--model_folder_path",
+    type=str,
+    default="models",
+    help='Optional custom path to trained RL models. Defaults to \'./models\'.',
+    )
+    parser.add_argument(
         "--energy_price_path",
         type=str,
         default="data/price_data_2025.csv",
@@ -441,6 +453,7 @@ def main():
             env_seed=args.seed,
             pred_horizon=args.mpc_horizon,
             reward_mode=args.reward_mode,
+            model_folder_path=args.model_folder_path,
             energy_price_path=args.energy_price_path,
             outdoor_temperature_path=args.outdoor_temperature_path,
             obs_variant=args.obs_variant,
@@ -479,4 +492,13 @@ if __name__ == "__main__":
     python run_evaluation.py --algorithms "MPC Control" --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"          # 266.90 in 396.20s
     python run_evaluation.py --algorithms ppo --reward_mode temperature --obs_variant T01 --prefer_best --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"      # 263.62 in 2.09s
     python run_evaluation.py --algorithms sac --reward_mode temperature --obs_variant T01 --prefer_best --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"      # 262.32 in 3.05s
+    """
+
+    """
+    RL Workshop
+    =======================
+    python run_evaluation.py --algorithms ppo --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv" --model_seed 18  # 268.01 in 2.12s
+    python run_evaluation.py --algorithms "PI Control" --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"         # 251.98 in 0.90s
+    python run_evaluation.py --algorithms "PID Control" --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"        # 251.98 in 0.88s
+    python run_evaluation.py --algorithms "Fuzzy Control" --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"      # 225.69 in 0.93s
     """

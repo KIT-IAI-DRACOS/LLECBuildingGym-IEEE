@@ -10,8 +10,11 @@
     <img src="data/img/icon_llecbuildinggym.svg" width="40%" hspace="30"/>
 </p>
 
-
 <h1 align="center">Advanced Deep Reinforcement Learning for Heat Pump Control in Residential Buildings</h1>
+
+<div style="display:flex; justify-content:center;">
+    <img src="data/img/HeatPumpEnvironment.gif" style="width:20%;">
+</div>
 
 **⚠️ Note**: _Last update on 09.11.2025_
 

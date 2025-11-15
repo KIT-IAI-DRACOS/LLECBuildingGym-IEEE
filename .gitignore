@@ -38,5 +38,6 @@ slurm/*.err
 slurm/*
 *.pyc
 __pycache__/
+plot-paper/workshop_animation.ipynb
 results/
 models/temperature/T01/ppo_model_seed18.zip
