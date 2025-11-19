@@ -96,31 +96,40 @@ LLECBuildingGym/                              # Root directory of the project
 <details>
   <summary>Click to expand/collapse</summary>
 
-### 2.1 Clone the repository and set up a virtual environment:
+### 2.1a Haicore (Linux):
 
 Clone the repository:
 ```bash
 git clone https://github.com/KIT-IAI/LLECBuildingGym
-```
-Create and activate a Python 3.9 virtual environment outside the repository (recommended for SLURM jobs):
-```bash
 python3.9 -m venv llec_env
 source llec_env/bin/activate
-```
-
-```bash
 cd LLECBuildingGym
 
 pip install --upgrade pip
 pip install -r requirements.txt
 pip install -e .
 ```
+
 The virtual environment and project directory should be organized as shown below:
 ```bash
 llec_env/                # Python virtual environment
 LLECBuildingGym/         # Root directory of the project
 ```
 
+### 2.1b Local (Windows):
+
+```bash
+git clone https://github.com/KIT-IAI/LLECBuildingGym
+py -3.9 -m venv llec_env
+.\llec_env\Scripts\activate
+cd LLECBuildingGym
+
+python -m pip install --upgrade --force-reinstall pip
+pip install -r requirements_windows.txt
+pip install -e .
+```
+
+Install Python 3.9.18 from https://www.python.org/downloads/release/python-3918
 
 ### 2.2 Reinstallation (after code changes):
 
