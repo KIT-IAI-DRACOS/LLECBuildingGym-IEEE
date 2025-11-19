@@ -98,15 +98,18 @@ LLECBuildingGym/                              # Root directory of the project
 
 ### 2.1 Clone the repository and set up a virtual environment:
 
+Clone the repository:
 ```bash
 git clone https://github.com/KIT-IAI/LLECBuildingGym
+```
+Create and activate a Python 3.9 virtual environment OUTSIDE the repo:
+```bash
+python3.9 -m venv llec_env
+source llec_env/bin/activate
 ```
 
 ```bash
 cd LLECBuildingGym
-
-python3.9 -m venv llec_env
-source llec_env/bin/activate
 
 pip install --upgrade pip
 pip install -r requirements.txt

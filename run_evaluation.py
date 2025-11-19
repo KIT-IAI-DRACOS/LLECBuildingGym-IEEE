@@ -206,7 +206,6 @@ def evaluate_model(
                     ]
 
                 # Predict action
-                # action, _ = model.predict(obs, deterministic=True, T_out_pred=T_out_pred)
                 action, _ = model.predict(
                     obs,
                     deterministic=True,

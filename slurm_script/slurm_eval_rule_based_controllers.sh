@@ -17,6 +17,17 @@
 
 set -euo pipefail
 
+# Activate Python virtual environment
+
+# ABSOLUTE PATH:
+# Select the path where the environment was installed.
+# This method always works, especially inside SLURM jobs.
+# Example:
+#   source /home/xx1234/llec_env/bin/activate
+
+# RELATIVE PATH:
+# Works if you followed the README.md setup and your terminal or SLURM script runs:
+#   cd LLECBuildingGym
 PYTHON_ENV="../llec_env"
 source "${PYTHON_ENV}/bin/activate"
 
