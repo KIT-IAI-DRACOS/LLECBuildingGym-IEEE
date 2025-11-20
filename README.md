@@ -112,8 +112,8 @@ pip install -e .
 
 The virtual environment and project directory should be organized as shown below:
 ```bash
-llec_env/                # Python virtual environment
-LLECBuildingGym/         # Root directory of the project
+llec_env/        # Python virtual environment
+LLECBuildingGym/ # Root directory of the project
 ```
 
 ### 2.1b Local (Windows):
@@ -240,8 +240,8 @@ These include:
 python run_evaluation.py --algorithms ppo --reward_mode temperature --obs_variant T01
 
 # Evaluate all available agents and controllers
-chmod +x slurm_script/slurm_eval_rl_batch.sh
-./slurm_script/slurm_eval_rl_batch.sh
+chmod +x slurm_script/slurm_train_01_rl_batch.sh
+./slurm_script/slurm_train_01_rl_batch.sh
 ```
 
 The modular design allows users to plug in their own controllers or extend the environment with new features, e.g., building dynamics or pricing schemes.
