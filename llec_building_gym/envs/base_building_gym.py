@@ -152,6 +152,7 @@ class Building:
         self.train_days = None
         self.eval_days = None
         self.price_vector = None
+        self.current_day = None # für Eval-Mode
         self.test_counter = 0  # für Eval-Mode
 
         # Energy price preparation, if path given
@@ -197,6 +198,7 @@ class Building:
                 self.start = day * steps_per_day
             else:
                 day = self.eval_days[self.test_counter]
+                self.current_day = int(day)
                 self.start = day * steps_per_day
                 self.test_counter += 1
                 self.test_counter = self.test_counter % len(self.eval_days)
@@ -648,7 +650,11 @@ class BaseBuildingGym(gym.Env):
         self.prev_action = 0
         obs = self._get_observation()
         self.cumulative_energy_Wh = 0.0
-        return obs, {"seed": seed}
+        info = {"seed": seed}
+        if hasattr(self.building, "current_day"):
+            info["eval_day"] = int(self.building.current_day)
+            info["start_index"] = int(self.building.start)
+        return obs, info
 
     def step(self, action):
         """

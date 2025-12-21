@@ -18,7 +18,7 @@
 </div>
 
 
-**⚠️ Note**: _Last update on 16.11.2025_
+**⚠️ Note**: _Last update on 21.12.2025_
 
 <div align="left"> 
 This repository contains the official code of our paper <strong>"Advanced Deep Reinforcement Learning for Heat Pump Control in Residential Buildings"</strong>.

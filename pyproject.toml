@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llec-building-gym"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Gymnasium-compatible environment for controlling building heating systems based on KIT's LLEC."
 authors = [
     { name = "Gökhan Demirel", email = "goekhan.demirel@kit.edu" }
