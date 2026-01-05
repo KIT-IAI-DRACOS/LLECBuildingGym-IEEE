@@ -5,6 +5,8 @@
 [![Python](https://img.shields.io/badge/Python-3.9.18-blue?logo=python)](https://www.python.org/downloads/release/python-3918/)
 [![License](https://img.shields.io/badge/License-MIT-green?logo=opensource)](./LICENSE)
 [![Code Style](https://img.shields.io/badge/Code%20Style-black-000000.svg?logo=python)](https://github.com/psf/black)
+[![DOI](https://img.shields.io/badge/DOI-10.1109%2FISGTEurope64741.2025.11305332-orange?logo=doi)](https://doi.org/10.1109/ISGTEurope64741.2025.11305332)
+
 
 <p float="left">
     <img src="data/img/icon_llecbuildinggym.svg" width="40%" hspace="30"/>
@@ -18,7 +20,7 @@
 </div>
 
 
-**⚠️ Note**: _Last update on 21.12.2025_
+**⚠️ Note**: _Last update on 05.01.2026_
 
 <div align="left"> 
 This repository contains the official code of our paper <strong>"Advanced Deep Reinforcement Learning for Heat Pump Control in Residential Buildings"</strong>.
@@ -257,15 +259,14 @@ The modular design allows users to plug in their own controllers or extend the e
 If you use this framework in your research, please consider citing our paper &#128221; and giving the repository a star &#11088;:
 </p>
 
-```bibTeX
+```bibtex
 @inproceedings{demirel2025_LLECBuildingGym,
-      title={Advanced Deep Reinforcement Learning for Heat Pump Control in Residential Buildings},
-      author={Gökhan Demirel and Ömer Ekin and Jianlei Liu and Luigi Spatafora and Kevin Förderer and Veit Hagenmeyer},
-      year={2025},
-      booktitle={Proceedings of the IEEE ISGT Europe 2025 (accepted)},
-      address = {Malta},
-      url = {https://github.com/KIT-IAI/LLECBuildingGym},
-      pages={1--5}
+  title     = {{Advanced Deep Reinforcement Learning for Heat Pump Control in Residential Buildings}},
+  author    = {Demirel, Gökhan and Ekin, Ömer and Liu, Jianlei and Spatafora, Luigi and Förderer, Kevin and Hagenmeyer, Veit},
+  year      = {2025},
+  booktitle = {2025 IEEE PES Innovative Smart Grid Technologies Conference Europe (ISGT Europe)},
+  pages     = {1--5},
+  doi       = {10.1109/ISGTEurope64741.2025.11305332},
 }
 ```
 

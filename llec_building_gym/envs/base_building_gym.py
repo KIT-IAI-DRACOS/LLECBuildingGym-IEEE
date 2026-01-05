@@ -152,7 +152,7 @@ class Building:
         self.train_days = None
         self.eval_days = None
         self.price_vector = None
-        self.current_day = None # für Eval-Mode
+        self.current_day = None  # für Eval-Mode
         self.test_counter = 0  # für Eval-Mode
 
         # Energy price preparation, if path given
