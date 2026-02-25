@@ -33,7 +33,6 @@ def get_model_path(
     reward_mode: str,
     subfolder: str = None,
     prefer_best: bool = True,
-    model_folder_path: str = "models",
     model_seed: int = 42,
 ) -> str:
     """
@@ -52,7 +51,7 @@ def get_model_path(
     Raises:
         FileNotFoundError: If no suitable model file is found in the given directory.
     """
-    base_path = os.path.join(model_folder_path, reward_mode)
+    base_path = os.path.join("models", reward_mode)
     if subfolder:
         base_path = os.path.join(base_path, subfolder)
     # Select model seed
@@ -69,7 +68,6 @@ def get_model_path(
         logger.error(
             f"No model found for {algorithm} (seed {model_seed}) in {base_path}"
         )
-        logger.error(f"standard_path: {standard_path}")
         raise FileNotFoundError(
             f"[ERROR] No model found for {algorithm} (seed {model_seed}) in {base_path}"
         )
@@ -81,7 +79,6 @@ def evaluate_model(
     env_seed=58,
     pred_horizon=12,
     reward_mode="temperature",
-    model_folder_path="./models",
     energy_price_path=None,
     outdoor_temperature_path=None,
     obs_variant=None,
@@ -127,7 +124,7 @@ def evaluate_model(
     )
 
     # Load pre-trained models or initialize rule-based controllers
-    model_path = f"{model_folder_path}/{reward_mode}/{algorithm}_model_seed{model_seed}"
+    model_path = f"./models/{reward_mode}/{algorithm}_model_seed{model_seed}"
     logger.debug(f"model_path: {model_path}")
     if algorithm in ["ppo", "sac", "ddpg", "td3", "a2c"]:
         model_path = get_model_path(
@@ -135,7 +132,6 @@ def evaluate_model(
             reward_mode=reward_mode,
             subfolder=obs_variant,
             prefer_best=prefer_best,
-            model_folder_path=model_folder_path,
             model_seed=model_seed,
         )
         if algorithm == "ppo":
@@ -206,6 +202,7 @@ def evaluate_model(
                     ]
 
                 # Predict action
+                # action, _ = model.predict(obs, deterministic=True, T_out_pred=T_out_pred)
                 action, _ = model.predict(
                     obs,
                     deterministic=True,
@@ -354,7 +351,7 @@ def main():
         "--mpc_horizon",
         type=int,
         default=12,
-        help="prediction horizon (number of 5-minute intervals, e.g., 12 = 1 hour)",
+        help="prediction horizon (number of 5-minute intervals, e.g., 12 = 1 hours)",
     )
     parser.add_argument(
         "--reward_mode",
@@ -362,12 +359,6 @@ def main():
         default="temperature",
         choices=["temperature", "combined"],
         help="Select reward mode: 'temperature' (single-objective), or 'combined' (multi-objective).",
-    )
-    parser.add_argument(
-        "--model_folder_path",
-        type=str,
-        default="models",
-        help="Optional custom path to trained RL models. Defaults to './models'.",
     )
     parser.add_argument(
         "--energy_price_path",
@@ -379,7 +370,7 @@ def main():
         "--outdoor_temperature_path",
         type=str,
         default=None,
-        help='Optional path to outdoor temperature CSV file (e.g., "data/LLEC_outdoor_temperature_5min_data.csv"). If not provided, a synthetic temperature profile is used.',
+        help='Optional path to outdoor temperature CSV file (e.g., "data/LLEC_outdoor_temperature_5min_data.csv"). If not provided, no temperature data will be used.',
     )
     parser.add_argument(
         "--obs_variant",
@@ -407,9 +398,7 @@ def main():
 
     results_dir = os.path.join("results", args.reward_mode)
     if args.outdoor_temperature_path is not None:
-        results_dir = os.path.join(results_dir, "real_temp_data")
-    else:
-        results_dir = os.path.join(results_dir, "synthetic_temp_data")
+        results_dir = os.path.join(results_dir, "outdoor_data")
     os.makedirs(results_dir, exist_ok=True)
 
     for algo in args.algorithms:
@@ -452,7 +441,6 @@ def main():
             env_seed=args.seed,
             pred_horizon=args.mpc_horizon,
             reward_mode=args.reward_mode,
-            model_folder_path=args.model_folder_path,
             energy_price_path=args.energy_price_path,
             outdoor_temperature_path=args.outdoor_temperature_path,
             obs_variant=args.obs_variant,
@@ -491,13 +479,4 @@ if __name__ == "__main__":
     python run_evaluation.py --algorithms "MPC Control" --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"          # 266.90 in 396.20s
     python run_evaluation.py --algorithms ppo --reward_mode temperature --obs_variant T01 --prefer_best --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"      # 263.62 in 2.09s
     python run_evaluation.py --algorithms sac --reward_mode temperature --obs_variant T01 --prefer_best --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"      # 262.32 in 3.05s
-    """
-
-    """
-    RL Workshop
-    =======================
-    python run_evaluation.py --algorithms ppo --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv" --model_seed 18  # 268.01 in 2.12s
-    python run_evaluation.py --algorithms "PI Control" --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"         # 251.98 in 0.90s
-    python run_evaluation.py --algorithms "PID Control" --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"        # 251.98 in 0.88s
-    python run_evaluation.py --algorithms "Fuzzy Control" --reward_mode temperature --obs_variant T01 --outdoor_temperature_path "data/LLEC_outdoor_temperature_5min_data.csv"      # 225.69 in 0.93s
     """
