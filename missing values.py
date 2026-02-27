@@ -1,7 +1,7 @@
 import pandas as pd
 
 # === CONFIG ===
-file_path = "C:\\Users\\gc3089\\Documents\\Benhchmark\\IEEE benchmark\\final dataset\\KIT B1 - AP.csv"
+file_path = "\\KIT B1 - AP.csv"
 
 # === LOAD DATA ===
 df = pd.read_csv(file_path,encoding="latin-1")
